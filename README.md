@@ -40,9 +40,6 @@ lapply(listed, FUN = colnames) %>% sapply(FUN = identical, colnames(jul_2022)) %
 sapply(lapply(listed, function(x) lapply(x, typeof)), FUN = identical, lapply(jul_2022, typeof)) %>% all()
 listed[[length(listed)+1]] = jul_2022
 
-#listed = lapply(listed, function(x){ select(x, -c(5:12))})
-#listed = lapply(listed, function(x){ mutate(x, duration = difftime(ended_at, started_at, unit = "secs"))})
-
 #after knowing the min/max duration calculated, a cleaning will be done for negative duration and those too high
 for(i in 1:length(listed)){
   listed[[i]] = select(listed[[i]], -c(1,5:12))
