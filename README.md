@@ -58,12 +58,12 @@ bike_type_rides = all %>%
 #find average duration of rides grouped by months and customer type
 monthly_mean = all %>% 
   group_by(month = floor_date(started_at, 'month'), member_casual) %>% 
-  summarise(average_duration = mean(duration), max_dur = max(duration), min_dur = min(duration), total_rides = n())
+  summarise(average_duration = mean(duration), var_dur = var(duration), min_dur = min(duration), max_dur = max(duration), total_rides = n())
 
 #find average duration of rides grouped by day of the week
 daily_mean = all %>% 
   group_by(day = wday(started_at, label=TRUE), member_casual) %>% 
-  summarise(average_duration = mean(duration), max_dur = max(duration), min_dur = min(duration) , total_rides = n())
+  summarise(average_duration = mean(duration), var_dur = var(duration), min_dur = min(duration), max_dur = max(duration), total_rides = n())
 ```
 
 **Second is through SQL, with the data imported to my local MariaDB:**
@@ -111,11 +111,11 @@ DELETE FROM tempo
 WHERE duration < 5 OR duration >600 OR CONCAT(duration, member_casual) IS NULL;
 
 /*aggregate the data to useful ones only*/
-SELECT DATE_FORMAT(started_at, '%Y-%m-01') AS mon, member_casual, ROUND(AVG(duration),2) AS average_duration, COUNT(*) AS total_rides, MIN(duration), MAX(duration)
+SELECT DATE_FORMAT(started_at, '%Y-%m-01') AS mon, member_casual, ROUND(AVG(duration),2) AS average_duration, ROUND(VAR(duration),2) AS var_dur, COUNT(*) AS total_rides, MIN(duration), MAX(duration)
 FROM tempo
 GROUP BY MONTH(started_at), member_casual;
 
-SELECT DATE_FORMAT(started_at, '%W') AS weekday, member_casual, ROUND(AVG(duration),2) AS average_duration, COUNT(*) AS total_rides, MIN(duration), MAX(duration)
+SELECT DATE_FORMAT(started_at, '%W') AS weekday, member_casual, ROUND(AVG(duration),2) AS average_duration, ROUND(VAR(duration),2) AS var_dur, COUNT(*) AS total_rides, MIN(duration), MAX(duration)
 FROM tempo
 GROUP BY WEEKDAY(started_at), member_casual;
 ```
@@ -140,7 +140,7 @@ Data visualisation is done through 3 different tools.
 
 All methods resulted in the same conclusions, which are:
 
-* Casual riders  decide to use the bicycles for entertainment, since the average duration of each ride is longer, while members tend to do it to get somewhere specific regularly, such as work or school. This is further supported though the weekday graphs since they show that on weekends the number of rides from the casual riders outnumber the subscribers.
+* Casual riders  decide to use the bicycles for entertainment, since the average duration of each ride is longer, while members tend to do it to get somewhere specific regularly, such as work or school. This is further supported though the weekday graphs since they show that on weekends the number of rides from the casual riders outnumber the subscribers. The variance on those who are members also support this hypothesis, since it is way lower than non-members, meaning they are used by members for daily commute.
 * The drop in frequency can be due to cold weather, since it happens around winter, while the drop for members is less since it might be necessary for them. The drop in average duration for non-members also support this, while it roughly stays constant for members.
 
 ## Case Study 2
