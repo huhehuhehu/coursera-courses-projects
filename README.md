@@ -181,11 +181,9 @@ gni = read_csv('gni.csv') %>%
   gather('Year','GNI','2000':'2019', convert = TRUE) %>%
   drop_na()
 ```
+<br/>
 
-```{r plot_suicide, echo = FALSE}
-ggplot(suicides, aes(x = Year, y = `Suicide Rate`, group = `Country Name`)) + 
-  geom_line() + labs(y = "Suicide Rate (per 100 000)", x = '')
-```
+<p align="center"><img width="800"src="/case-study-3/1.jpeg?raw=true"></p>
 
 <div align='center'><b>Figure 1. Line chart displaying the trend of suicide rate of each country from year 2000 to 2019.</b></div>
 <br />
@@ -216,21 +214,13 @@ lowest_suicide_rate = filter(suicides, `Country Name` %in% lowest_suicide_countr
 
 ### 2. Analysis
 
-```{r low_suicide_year, echo = FALSE}
-ggplot(lowest_suicide_rate, aes(x = Year, y = `Suicide Rate`, colour = `Country Name`)) + 
-  geom_line() + 
-  xlim(2000,2020) +
-  labs(color = 'Country', x = '', y = 'Suicide Rate (per 100 000)')
-```
+<p align="center"><img width="800"src="/case-study-3/2.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 2. Line chart of the trend in suicide rate for the bottom 10 countries with the lowest average suicide rate over the period.</b></div>
 <br />
 
 ```{r high_suicide_year, echo = FALSE}
-ggplot(highest_suicide_rate, aes(x = Year, y = `Suicide Rate`, colour = `Country Name`)) + 
-  geom_line() + 
-  xlim(2000,2020) + ylim(0,100) +
-  labs(color = 'Country', x = '', y = 'Suicide Rate (per 100 000)')
-```
+
+<p align="center"><img width="800"src="/case-study-3/3.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 3. Line chart of the trend in suicide rate for the top 10 countries with the highest average suicide rate over the period.</b></div>
 
 #### 2.1 Make a deduction about the effect of purchasing power on suicidal tendencies
@@ -243,13 +233,7 @@ gni_suicide_high = merge(highest_suicide_rate, gni, by = c('Country Name', "Year
 gni_suicide_low = merge(lowest_suicide_rate, gni, by = c('Country Name', "Year"), all.x = FALSE, all.y = FALSE) %>%
   drop_na()
 
-ggplot(rbind(gni_suicide_high, gni_suicide_low), 
-       aes(x = `GNI`, y = `Suicide Rate`, color = `Country Name`)) +
-  geom_point() +
-  theme(legend.position = "none") +
-  ylim(1,100) +
-  labs(x = "GNI per capita, PPP", y = "suicide Rate (per 100 000)")
-```
+<p align="center"><img width="800"src="/case-study-3/4.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 4. Scatter chart of GNI per capita vs suicide rate for countries with the top and bottom 10 average suicide rate over the period.</b></div>
 
 
@@ -264,6 +248,7 @@ merge(mean_suicide_rate, mean_gni, by = 'Country Name', all.x = FALSE, all.y = F
   geom_smooth(method = "lm") +
   labs(x = "GNI per capita, PPP", y = "suicide Rate (per 100 000)")
 ```
+<p align="center"><img width="800"src="/case-study-3/5.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 5. Scatter chart of average GNI per capita vs average suicide rate for all the available countries, line of best fit added.</b></div>
 
 
@@ -311,60 +296,13 @@ suicide_gni_birth_grouped = suicide_gni_birth %>%
 
 It is common knowledge that as a country' progress's economy progresses, there will always be a decrease in birth rate. However, the value is not always equal. That is the reason why the grouping is done.
 
-```{r plot_grouped, echo=FALSE, message=FALSE}
-#plot different birth rate range separately
-p1 = ggplot(filter(suicide_gni_birth_grouped, birth_rate_range == "(0,10]"), 
-       aes(x = avg_gni, y = avg_suicide_rate)) +
-  geom_point() +
-  labs(x = '', y = "Suicide rate (per 100 000)", title = "Less than 10") +
-  ylim(0,75) +
-  geom_smooth(method = "lm") +
-  annotate("text", x = 30000, y = 60, label = "bold('High income')", parse = TRUE) +
-  geom_vline(xintercept = 1036) + geom_vline(xintercept = 4045) + geom_vline(xintercept = 12535)
 
-p2 = ggplot(filter(suicide_gni_birth_grouped, birth_rate_range == "(10,20]"), 
-       aes(x = avg_gni, y = avg_suicide_rate)) +
-  geom_point() +
-  labs(x = '', y = '', title = "Between 10 and 20") +
-  ylim(0,75) +
-  geom_smooth(method = "lm") +
-  annotate("text", x = 45000, y = 60, label = "bold('High income')", parse = TRUE) +
-  geom_vline(xintercept = 1036) + geom_vline(xintercept = 4045) + geom_vline(xintercept = 12535)
-
-p3 = ggplot(filter(suicide_gni_birth_grouped, birth_rate_range == "(20,30]"), 
-       aes(x = avg_gni, y = avg_suicide_rate)) +
-  geom_point() +
-  labs(x = "GNI per capita, PPP", y = "Suicide rate (per 100 000)", title = "Between 20 to 30") +
-  ylim(0,75) +
-  geom_smooth(method = "lm") +
-  annotate("text", x = 9000, y = 60, label = "bold('Upper\nmiddle\nincome')", parse = TRUE,  size = 2) +
-  geom_vline(xintercept = 1036) + geom_vline(xintercept = 4045) + geom_vline(xintercept = 12535)
-
-p4 = ggplot(filter(suicide_gni_birth_grouped, birth_rate_range == "(30,Inf]"), 
-       aes(x = avg_gni, y = avg_suicide_rate)) +
-  geom_point() +
-  labs(x = "GNI per capita, PPP", y = '', title = "More than 30") +
-  ylim(0,75) +
-  geom_smooth(method = "lm") +
-  annotate("text", x = 9000, y = 60, label = 'bold("Upper\nmiddle\nincome")',  parse = TRUE) +
-  geom_vline(xintercept = 1036) + geom_vline(xintercept = 4045) + geom_vline(xintercept = 12535)
-
-ggarrange(p1, p2, p3, p4,
-          ncol = 2, nrow = 2)
-```
+<p align="center"><img width="800"src="/case-study-3/6.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 6. Scatter charts of data separated by range of the average birth rate in each country, chart plotted average GNI per capita vs average suicide rate over the year 2000 to 2019. The plots also include the income ranges deemed to be of [low, lower-middle, upper-middle, and higher](https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups).</b></div>
 <br />
 
 
-```{r plot_grouped_combined, echo=FALSE, message=FALSE}
-suicide_gni_birth_grouped %>%
-  group_by(birth_rate_range) %>%
-  ggplot(aes(x = avg_gni, y = avg_suicide_rate)) +
-  geom_point(aes(color = birth_rate_range, shape = birth_rate_range)) + 
-  theme(legend.position = c(1,1), legend.justification = c("right", "top")) +
-  labs(color = 'Birth Rate (Per 1000)', shape = 'Birth Rate (Per 1000)', x = "GNI per capita, PPP", y = "Suicide rate (per 100 000)") +
-  geom_vline(xintercept = 1036) + geom_vline(xintercept = 4045) + geom_vline(xintercept = 12535)
-```
+<p align="center"><img width="800"src="/case-study-3/7.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 7. Scatter chart of average GNI per capita vs average suicide rate for all the available countries grouped by different ranges of birth rate.</b></div>
 <br />
 
@@ -375,6 +313,8 @@ suicide_gni_birth %>%
   summarise('lowest suicide' = min(avg_suicide_rate), 'average suicide' = mean(avg_suicide_rate), 'max suicide' = max(avg_suicide_rate),
             'lowest gni' = min(avg_gni), 'average gni' = mean(avg_gni), 'highest gni' = max(avg_gni))
 ```
+<p align="left"><img width="800"src="/case-study-3/8.JPG?raw=true"></p>
+
 As it can be seen from the summary, the average suicide rate of the countries with lower birth rate are higher, even though majority are developed countries.Same goes with those with extremely high birth rate, which has the lowest average suicide rate. Those closer to the normal birth rate are around similar average suicide rate, however, those with lower birth rate consist of countries with high GNI per capita, which supports my previous deduction, even though there are a few who still do not follow the trend.
 
 This can mean several things, however it will not be convenient to prove since there will be inadequate data available since the other factors, such as traditions, cultures, politics etc., would be hard to gather data on due to the wide range of types.  One factor I can be sure of is the societal aspect of each country. Being developed countries yet having low birth rate means that the chances of creating a family there is low, and therefore the chance of adults being supported by others is low as well. While the opposite, which is high birth rate in a developing or even third world countries, means that the population is socialising regularly.
@@ -394,6 +334,9 @@ summary(suicide_proportion)
 
 filter(suicide_proportion, `Female Percentage` > `Male Percentage`)
 ```
+<p align="left"><img width="800"src="/case-study-3/9.JPG?raw=true"></p>
+<p align="left"><img width="800"src="/case-study-3/10.JPG?raw=true"></p>
+
 As it can be seen from the summary table, the percentage of male suicide victims is significantly larger than female's. And looking at the countries with higher female ratio, only two come up,Grenada and Antigua and Barbuda, which fall under the 10 countries with lowest suicide rate, hence it's insignificant.
 
 There can be several explanations for this, however all would lead to stress, which is made worse by the fact that men tend to hide their negative emotions, hence getting no support from others (source from [mensline.org.au](https://mensline.org.au/mens-mental-health/men-and-emotions)). Again, this could be due to traditions or cultures that demand men to reach higher goals in life as the normal. 
