@@ -218,7 +218,7 @@ lowest_suicide_rate = filter(suicides, `Country Name` %in% lowest_suicide_countr
 <div align = "center"><b>Figure 2. Line chart of the trend in suicide rate for the bottom 10 countries with the lowest average suicide rate over the period.</b></div>
 <br />
 
-```{r high_suicide_year, echo = FALSE}
+
 
 <p align="center"><img width="800"src="/case-study-3/3.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 3. Line chart of the trend in suicide rate for the top 10 countries with the highest average suicide rate over the period.</b></div>
@@ -232,7 +232,7 @@ gni_suicide_high = merge(highest_suicide_rate, gni, by = c('Country Name', "Year
 
 gni_suicide_low = merge(lowest_suicide_rate, gni, by = c('Country Name', "Year"), all.x = FALSE, all.y = FALSE) %>%
   drop_na()
-
+```
 <p align="center"><img width="800"src="/case-study-3/4.jpeg?raw=true"></p>
 <div align = "center"><b>Figure 4. Scatter chart of GNI per capita vs suicide rate for countries with the top and bottom 10 average suicide rate over the period.</b></div>
 
