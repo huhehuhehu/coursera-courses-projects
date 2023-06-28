@@ -20,7 +20,7 @@ Suicide does not only happen in certain countries, in fact it is a global phenom
 I will make an attempt to determine the causes by analysing data recording the world's past suicide rate as well as other probable factors which would increase the total number of suicides.
 
 
-## Advanced course - Salifort Motors
+## Advanced course - Salifort Motors (machine learning)
 
 ### Synopsis
 
