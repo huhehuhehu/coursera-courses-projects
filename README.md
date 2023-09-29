@@ -20,10 +20,16 @@ Suicide does not only happen in certain countries, in fact it is a global phenom
 I will make an attempt to determine the causes by analysing data recording the world's past suicide rate as well as other probable factors which would increase the total number of suicides.
 
 
-## Advanced course - Salifort Motors (machine learning)
+## Google Advanced Data Analytics Course - Salifort Motors (Machine Learning)
 
 ### Synopsis
 
 Salifort Motors is a fictional French-based alternative energy vehicle manufacturer. Its global workforce of over 100,000 employees research, design, construct, validate, and distribute electric, solar, algae, and hydrogen-based vehicles. Salifort’s end-to-end vertical integration model has made it a global leader at the intersection of alternative energy and automobiles.        
 
 As a data specialist working for Salifort Motors, I have received the results of a recent employee survey. The senior leadership team has tasked me with analyzing the data to come up with ideas for how to increase employee retention. To help with this, they would like me to design a model that predicts whether an employee will leave the company based on their  department, number of projects, average monthly hours, and any other data points I deem helpful. 
+
+### IBM AI Engineering Course - Crack Detection in Buildings (Deep Learning)
+
+### Description
+
+Crack detection has vital importance for structural health monitoring and inspection. In this series of labs, you learn everything you need to efficiently build a classifier using a pre-trained model that would detect cracks in images of concrete. For problem formulation, we will denote images of cracked concrete as the positive class and images of concrete with no cracks as the negative class.
